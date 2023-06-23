@@ -7,9 +7,10 @@ local function hud_add(killer, texture, victim)
 			dlhuds[name] = {}
 		end
 		for i,huds in ipairs(dlhuds[name]) do
-			player:hud_change(huds[1],"position",{x = 0.78, y = 0.9 - i/30})
-			player:hud_change(huds[2],"position",{x = 0.79, y = 0.9 - i/30})
-			player:hud_change(huds[3],"position",{x = 0.8, y = 0.9 - i/30})
+			local num = #dlhuds[name] + 1 - i
+			player:hud_change(huds[1],"position",{x = 0.78, y = 0.9 - num/30})
+			player:hud_change(huds[2],"position",{x = 0.79, y = 0.9 - num/30})
+			player:hud_change(huds[3],"position",{x = 0.8, y = 0.9 - num/30})
 		end
 		local huds = {}
 		huds[1] = player:hud_add({
@@ -58,7 +59,7 @@ core.register_on_dieplayer(function(player, reason)
 		hud_add("","deathlog_wasted.png",name)
 	end
 	if reason.type == "node_damage" then
-		hud_add("",core.registered_nodes[reason.node].tiles[1],name)
+		hud_add((core.registered_nodes[reason.node].description or reason.node),"deathlog_wasted.png",name)
 	end
 	if reason.type == "drown" then
 		hud_add("","bubble.png",name)
